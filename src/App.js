@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SimpleTags from './components/SimpleTags';
 
 class App extends Component {
+
+  state = {tags: ['abc@example.com', 'xyz@example.com'], hasError: false};
+
+  onValidationFail = ()  => {
+    this.setState({hasError: true});
+    console.log('Please enter a correct email address!');
+  };
+
+  onValueChange = (value) => {
+    console.log(value);
+    this.setState({tags: [...value]});
+  };
+
   render() {
+    const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="page-container">
+        <SimpleTags
+            regex={emailRegex}
+            onValidationFail={this.onValidationFail}
+            hasError={this.state.hasError}
+            onValueChange={this.onValueChange}
+            initValue={this.state.tags}
+            errorMessage={'Value must not empty'}
+        />
       </div>
     );
   }

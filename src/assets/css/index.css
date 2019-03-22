@@ -1,0 +1,11 @@
+@import "simple-tags.css";
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.page-container {
+  width: 700px;
+  margin: 100px auto;
+}

@@ -1,0 +1,49 @@
+.simple-tags-wrap {
+    width: 100%;
+    float: left;
+}
+
+.simple-tags {
+    width: 100%;
+    float: left;
+    padding: 1px 3px;
+    border: 1px solid #d9d9d9;
+    transition: all .3s;
+    border-radius: 4px;
+}
+
+.simple-tags .tag {
+    display: inline-block;
+    padding: 3px 7px;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    margin: 2px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.simple-tags .tag i {
+    font-style: normal;
+    padding: 0 2px;
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+.simple-tags-input {
+    outline: none;
+    border: none;
+    font-size: 14px;
+    line-height: 23px;
+    margin: 2px;
+}
+
+.simple-tags-wrap.has-error .simple-tags {
+    border: 1px solid #f5222d;
+}
+
+.simple-tags-wrap .simple-tags-error {
+    color: #f5222d;
+    font-size: 14px;
+    line-height: 22px;
+    margin-top: 2px;
+    display: inline-block;
+}
