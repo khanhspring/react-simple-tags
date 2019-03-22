@@ -10,6 +10,8 @@ class SimpleTags extends React.Component {
         super(props);
         this.state = {
             tags: this.props.initValue || [],
+            regexValid: true,
+            regexErrorMessage: this.props.regexErrorMessage || 'Value is invalid',
             value: ""
         };
     }
@@ -27,11 +29,13 @@ class SimpleTags extends React.Component {
                 if (this.props.onValidationFail) {
                     this.props.onValidationFail();
                 }
+                this.setState({regexValid: false});
                 return;
             }
             this.addTag();
             e.preventDefault();
         }
+        this.setState({regexValid: true});
     };
 
     handleKeyDown = (e) => {
@@ -50,7 +54,8 @@ class SimpleTags extends React.Component {
         }
 
         this.setState({
-            value: ""
+            value: "",
+            regexValid: true
         });
     };
 
@@ -62,6 +67,12 @@ class SimpleTags extends React.Component {
             tags: newTags
         });
         this.handleOnTagsChange(newTags);
+    };
+
+    focusOnTagInput = () => {
+        if (this.tagInput) {
+            this.tagInput.focus();
+        }
     };
 
     handleOnTagsChange(newTags) {
@@ -110,29 +121,36 @@ class SimpleTags extends React.Component {
         const { tags, value } = this.state;
         return (
             <div className={'simple-tags-wrap' + (this.props.hasError ? ' has-error' : '')}>
-                <div className="simple-tags">
+                <div className="simple-tags" onClick={this.focusOnTagInput}>
                     {tags.map((tag, i) => (
                         <span key={tag + i} className="tag">
                             {tag}
                             <i onClick={(e) => this.removeTag(i)}>x</i>
                         </span>
                     ))}
-                    <input
-                        type="text"
-                        placeholder="Add tag..."
-                        value={value}
-                        onChange={this.handleChange}
-                        ref="tag"
-                        className="simple-tags-input"
-                        onKeyUp={this.handleKeyUp}
-                        onKeyDown={this.handleKeyDown}
-                        onBlur={this.handleOnBlur}
-                    />
+                    <div className="simple-tags-input-wrap">
+                        <input
+                            ref={(input) => { this.tagInput = input; }}
+                            type="text"
+                            placeholder={this.props.placeholder || 'Add a tag...'}
+                            value={value}
+                            onChange={this.handleChange}
+                            className="simple-tags-input"
+                            onKeyUp={this.handleKeyUp}
+                            onKeyDown={this.handleKeyDown}
+                            onBlur={this.handleOnBlur}
+                        />
+                        {
+                            !this.state.regexValid &&
+                            <div className="simple-tags-warning">
+                                <span>{this.state.regexErrorMessage}</span>
+                            </div>
+                        }
+                    </div>
                 </div>
                 {
                     this.props.hasError && <span className="simple-tags-error">{this.props.errorMessage}</span>
                 }
-
             </div>
         );
     }
